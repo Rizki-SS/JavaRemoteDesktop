@@ -1,0 +1,10 @@
+
+https://stackoverflow.com/questions/4252294/sending-objects-across-network-using-udp-in-java
+
+https://www.geeksforgeeks.org/java-program-take-screenshots/#:~:text=awt.,be%20saved%20as%20a%20file.
+
+https://stackoverflow.com/questions/18027833/adding-image-to-jframe
+
+https://www.geeksforgeeks.org/mouselistener-mousemotionlistener-java/
+
+https://mkyong.com/java/how-to-convert-byte-to-bufferedimage-in-java/
