@@ -6,7 +6,7 @@ Catatan menggunakan :
 - jalankan class server sebagai desktop yang akan diremote
 - jalankan class client sebagai desktop yang meremote
 
-Masalah yang masih akan di selesaikan :
+Masalah yang masih akan di kembangkan :
 - Perlu di atur secara manual ukuran dari jendela di client
 - Apabila mengirim gambar/screenshare dengan skala normal yaitu 1/1 biasanya gagal terkirim.
 - Masih tidak tersedia input dari keyboar
