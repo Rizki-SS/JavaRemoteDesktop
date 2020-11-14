@@ -23,7 +23,7 @@ public class ClickMouse implements RobotAction {
     }
 
     public ClickMouse(MouseEvent event) {
-        this(event.getButton(), event.getClickCount());
+        this(event.getModifiers(), event.getClickCount());
     }
 
     public Object execute(Robot robot) {
