@@ -5,9 +5,9 @@
  */
 package com.mycompany.javaremotedestop;
 
-import com.mycompany.javaremotedestop.ClickMouse;
-import com.mycompany.javaremotedestop.Action;
-import com.mycompany.javaremotedestop.MoveMouse;
+import com.mycompany.javaremotedestop.backend.ClickMouse;
+import com.mycompany.javaremotedestop.backend.Action;
+import com.mycompany.javaremotedestop.backend.MoveMouse;
 import static com.mycompany.javaremotedestop.SETUP.*;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -79,7 +79,7 @@ public class Client extends javax.swing.JFrame {
             @Override
             public void mouseMoved(MouseEvent evt) {
                 mm = new MoveMouse(evt);
-//                System.out.println(mm.toString());
+                System.out.println(mm.toString());
                 sendPaket(null);
             }
         };

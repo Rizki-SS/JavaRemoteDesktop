@@ -5,7 +5,7 @@
  */
 package com.mycompany.javaremotedestop;
 
-import com.mycompany.javaremotedestop.Action;
+import com.mycompany.javaremotedestop.backend.Action;
 import static com.mycompany.javaremotedestop.SETUP.*;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -75,7 +75,7 @@ public class Server {
                             bs, bs.length, new InetSocketAddress(IPCLIENT, CLIENT_PORT));
                     DatagramSocket ds = new DatagramSocket();
                     ds.send(dp);
-                    System.out.println("send");
+//                    System.out.println("send");
                     sleep(100);
                 } catch (Exception e) {
                     System.out.println(e);
