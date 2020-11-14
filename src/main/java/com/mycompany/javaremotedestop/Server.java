@@ -5,7 +5,8 @@
  */
 package com.mycompany.javaremotedestop;
 
-import static com.mycompany.javaremotedestop.SETUP.SKALA;
+import com.mycompany.javaremotedestop.Action;
+import static com.mycompany.javaremotedestop.SETUP.*;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Robot;
@@ -37,18 +38,17 @@ public class Server {
             robot = new Robot();
             while (true) {
                 ds.receive(dp);
-                System.out.println("run---");
                 ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(dataMsg));
                 Action paket = (Action) ois.readObject();
                 if (paket.getMm() != null) {
                     //menjalankan perintah
-//                    paket.getMm().execute(robot);
-                    System.out.println(paket.getMm().toString());
+                    paket.getMm().execute(robot);
+//                    System.out.println(paket.getMm().toString());
                 }
                 if (paket.getCm() != null) {
                     //menjalankan perintah
-//                    paket.getCm().execute(robot);
-                    System.out.println(paket.getCm().toString());
+                    paket.getCm().execute(robot);
+//                    System.out.println(paket.getCm().toString());
                 }
             }
         } catch (Exception e) {
@@ -72,7 +72,7 @@ public class Server {
 
                     //send action datas
                     DatagramPacket dp = new DatagramPacket(
-                            bs, bs.length, new InetSocketAddress("localhost", 1112));
+                            bs, bs.length, new InetSocketAddress(IPCLIENT, CLIENT_PORT));
                     DatagramSocket ds = new DatagramSocket();
                     ds.send(dp);
                     System.out.println("send");
@@ -83,27 +83,5 @@ public class Server {
             }
         }
     };
-//    public static void sendPaket() {
-    //        try {
-    //            BufferedImage image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-    //            BufferedImage newImg = new BufferedImage(image.getWidth() / 2, image.getHeight() / 2, BufferedImage.TYPE_INT_RGB);
-    //            Graphics g = newImg.createGraphics();
-    //            g.drawImage(image, 0, 0, image.getWidth() / 2, image.getHeight() / 2, null);
-    //            g.dispose();
-    ////            ImageIO.write(newImg, "jpg", new File("D://sad.jpg"));
-    //            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    //            ImageIO.write(newImg, "jpg", baos);
-    //            byte[] bs = baos.toByteArray();
-    //
-    //            //send action datas
-    //            DatagramPacket dp = new DatagramPacket(
-    //                    bs, bs.length, new InetSocketAddress("localhost", 1112));
-    //            DatagramSocket ds = new DatagramSocket();
-    //            ds.send(dp);
-    //            System.out.println("send");
-    //        } catch (Exception e) {
-    //            System.out.println(e);
-    //        }
-    //    }
 
 }

@@ -5,9 +5,11 @@
  */
 package com.mycompany.javaremotedestop;
 
-import java.awt.Dimension;
+import com.mycompany.javaremotedestop.ClickMouse;
+import com.mycompany.javaremotedestop.Action;
+import com.mycompany.javaremotedestop.MoveMouse;
+import static com.mycompany.javaremotedestop.SETUP.*;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -30,9 +32,6 @@ public class Client extends javax.swing.JFrame {
 
 //    private static ClickMouse cm;
     private static MoveMouse mm;
-    static double skalaW;
-    static double skalaH;
-    int x, y;
 
     Thread receive = new Thread() {
         @Override
@@ -40,14 +39,14 @@ public class Client extends javax.swing.JFrame {
             try {
                 byte[] dataMsg = new byte[65555];
                 DatagramPacket dp = new DatagramPacket(dataMsg, dataMsg.length);
-                DatagramSocket ds = new DatagramSocket(1112);
+                DatagramSocket ds = new DatagramSocket(CLIENT_PORT);
 
                 while (true) {
                     try {
                         ds.receive(dp);
                         InputStream is = new ByteArrayInputStream(dataMsg);
                         BufferedImage image = ImageIO.read(is);
-//                    BufferedImage image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+//                      BufferedImage image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
 //                        ImageIcon icon = new ImageIcon(image.getScaledInstance(
 //                                (int) (image.getWidth() * 0.5), (int) (image.getHeight() * 0.5), Image.SCALE_DEFAULT));
                         ImageIcon icon = new ImageIcon(image.getScaledInstance(
@@ -71,13 +70,6 @@ public class Client extends javax.swing.JFrame {
         initComponents();
         receive.start();
 
-        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        double w = d.getWidth();
-        double h = d.getHeight();
-//        skalaW = jPanel1.getWidth() / w;
-//        skalaH = jPanel1.getHeight() / h;
-        System.out.println(d.toString());
-
         MouseAdapter adapter = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
@@ -87,7 +79,7 @@ public class Client extends javax.swing.JFrame {
             @Override
             public void mouseMoved(MouseEvent evt) {
                 mm = new MoveMouse(evt);
-                System.out.println(mm.getX() * 2 + " " + mm.getY() * 2);
+//                System.out.println(mm.toString());
                 sendPaket(null);
             }
         };
@@ -106,7 +98,7 @@ public class Client extends javax.swing.JFrame {
             //send action data
             Thread.sleep(100);
             DatagramPacket dp = new DatagramPacket(
-                    bs, bs.length, new InetSocketAddress("localhost", 1111));
+                    bs, bs.length, new InetSocketAddress(IPSERVER, SERVER_PORT));
             DatagramSocket ds = new DatagramSocket();
             ds.send(dp);
         } catch (Exception e) {
@@ -128,7 +120,6 @@ public class Client extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 255));
         jPanel1.setName(""); // NOI18N
 
         jLabel1.setAlignmentY(0.0F);
