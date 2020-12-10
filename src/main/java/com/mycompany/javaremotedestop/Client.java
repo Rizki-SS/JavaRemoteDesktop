@@ -9,7 +9,10 @@ import com.mycompany.javaremotedestop.backend.ClickMouse;
 import com.mycompany.javaremotedestop.backend.Action;
 import com.mycompany.javaremotedestop.backend.MoveMouse;
 import static com.mycompany.javaremotedestop.SETUP.*;
+import com.mycompany.javaremotedestop.backend.KeyPress;
 import java.awt.Image;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -62,7 +65,28 @@ public class Client extends javax.swing.JFrame {
             }
         }
     };
+    
+    MouseAdapter adapter = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                sendPaket(new ClickMouse(evt), null);
+            }
 
+            @Override
+            public void mouseMoved(MouseEvent evt) {
+                mm = new MoveMouse(evt);
+                System.out.println(mm.toString());
+                sendPaket(null, null);
+            }
+        };
+
+    KeyAdapter keyAdapter = new KeyAdapter() {
+        @Override
+        public void keyPressed(KeyEvent evt) {
+            sendPaket(null, new KeyPress(evt));
+        }
+    };
+    
     /**
      * Creates new form jFormServer
      */
@@ -70,29 +94,16 @@ public class Client extends javax.swing.JFrame {
         initComponents();
         receive.start();
 
-        MouseAdapter adapter = new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent evt) {
-                sendPaket(new ClickMouse(evt));
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent evt) {
-                mm = new MoveMouse(evt);
-                System.out.println(mm.toString());
-                sendPaket(null);
-            }
-        };
-
+        addKeyListener(keyAdapter);
         jLabel1.addMouseListener(adapter);
         jLabel1.addMouseMotionListener(adapter);
     }
 
-    public void sendPaket(ClickMouse cm) {
+    public void sendPaket(ClickMouse cm, KeyPress kp) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutput oo = new ObjectOutputStream(baos);
-            oo.writeObject(new Action(mm, cm));
+            oo.writeObject(new Action(mm, cm, kp));
             byte[] bs = baos.toByteArray();
 
             //send action data

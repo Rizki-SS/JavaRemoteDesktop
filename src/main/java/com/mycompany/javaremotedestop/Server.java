@@ -41,14 +41,16 @@ public class Server {
                 ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(dataMsg));
                 Action paket = (Action) ois.readObject();
                 if (paket.getMm() != null) {
-                    //menjalankan perintah
                     paket.getMm().execute(robot);
 //                    System.out.println(paket.getMm().toString());
                 }
                 if (paket.getCm() != null) {
-                    //menjalankan perintah
                     paket.getCm().execute(robot);
 //                    System.out.println(paket.getCm().toString());
+                }
+                if(paket.getKp() != null){
+                    paket.getKp().execute(robot);
+//                    System.out.println(paket.getKp().toString());
                 }
             }
         } catch (Exception e) {

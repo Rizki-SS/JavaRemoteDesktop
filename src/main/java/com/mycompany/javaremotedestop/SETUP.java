@@ -16,5 +16,5 @@ public class SETUP {
     public static int CLIENT_PORT = 1112;
     
     //skala untuk resize gambar yang di kirim. 1/SKALA
-    public static int SKALA = 2;
+    public static int SKALA = 3;
 }

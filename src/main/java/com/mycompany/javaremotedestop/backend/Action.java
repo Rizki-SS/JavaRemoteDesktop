@@ -14,10 +14,12 @@ import java.io.Serializable;
 public class Action implements Serializable{
     private MoveMouse mm;
     private ClickMouse cm;
+    private KeyPress kp;
 
-    public Action(MoveMouse mm, ClickMouse cm) {
+    public Action(MoveMouse mm, ClickMouse cm, KeyPress kp) {
         this.mm = mm;
         this.cm = cm;
+        this.kp = kp;
     }
 
     public MoveMouse getMm() {
@@ -26,5 +28,9 @@ public class Action implements Serializable{
 
     public ClickMouse getCm() {
         return cm;
+    }
+
+    public KeyPress getKp() {
+        return kp;
     }
 }
