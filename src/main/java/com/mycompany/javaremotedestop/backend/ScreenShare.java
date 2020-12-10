@@ -5,6 +5,11 @@
  */
 package com.mycompany.javaremotedestop.backend;
 
+import static com.mycompany.javaremotedestop.SETUP.SKALA;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
@@ -12,29 +17,14 @@ import java.io.Serializable;
  *
  * @author ACER
  */
-public class ScreenShare implements Serializable{
-    BufferedImage image;
-    int screenX, screenY;
+public class ScreenShare{
 
-    public ScreenShare(BufferedImage image, int screenX, int screenY) {
-        this.image = image;
-        this.screenX = screenX;
-        this.screenY = screenY;
-    }
-
-    ScreenShare(BufferedImage image, double w, double h) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public BufferedImage getImage() {
-        return image;
-    }
-
-    public int getScreenX() {
-        return screenX;
-    }
-
-    public int getScreenY() {
-        return screenY;
+    public BufferedImage takeScreen(Robot robot) {
+        BufferedImage image = robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+        BufferedImage newImg = new BufferedImage(image.getWidth() / SKALA, image.getHeight() / SKALA, BufferedImage.TYPE_INT_RGB);
+        Graphics g = newImg.createGraphics();
+        g.drawImage(image, 0, 0, image.getWidth() / SKALA, image.getHeight() / SKALA, null);
+        g.dispose();
+        return newImg;
     }
 }

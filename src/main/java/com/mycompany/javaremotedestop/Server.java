@@ -7,6 +7,7 @@ package com.mycompany.javaremotedestop;
 
 import com.mycompany.javaremotedestop.backend.Action;
 import static com.mycompany.javaremotedestop.SETUP.*;
+import com.mycompany.javaremotedestop.backend.ScreenShare;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Robot;
@@ -27,6 +28,7 @@ import javax.imageio.ImageIO;
 public class Server {
 
     static Robot robot;
+    static private ScreenShare ss = new ScreenShare();
 
     public static void main(String[] args) {
         sendPaket.start();
@@ -40,18 +42,7 @@ public class Server {
                 ds.receive(dp);
                 ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(dataMsg));
                 Action paket = (Action) ois.readObject();
-                if (paket.getMm() != null) {
-                    paket.getMm().execute(robot);
-//                    System.out.println(paket.getMm().toString());
-                }
-                if (paket.getCm() != null) {
-                    paket.getCm().execute(robot);
-//                    System.out.println(paket.getCm().toString());
-                }
-                if(paket.getKp() != null){
-                    paket.getKp().execute(robot);
-//                    System.out.println(paket.getKp().toString());
-                }
+                paket.execute(robot);
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -62,14 +53,10 @@ public class Server {
         public void run() {
             while (true) {
                 try {
-                    BufferedImage image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-                    BufferedImage newImg = new BufferedImage(image.getWidth() / SKALA, image.getHeight() / SKALA, BufferedImage.TYPE_INT_RGB);
-                    Graphics g = newImg.createGraphics();
-                    g.drawImage(image, 0, 0, image.getWidth() / SKALA, image.getHeight() / SKALA, null);
-                    g.dispose();
+                    
 //            ImageIO.write(newImg, "jpg", new File("D://sad.jpg"));
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    ImageIO.write(newImg, "jpg", baos);
+                    ImageIO.write(ss.takeScreen(robot), "jpg", baos);
                     byte[] bs = baos.toByteArray();
 
                     //send action datas

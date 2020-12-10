@@ -5,13 +5,15 @@
  */
 package com.mycompany.javaremotedestop.backend;
 
+import java.awt.Robot;
 import java.io.Serializable;
 
 /**
  *
  * @author ACER
  */
-public class Action implements Serializable{
+public class Action implements Serializable {
+
     private MoveMouse mm;
     private ClickMouse cm;
     private KeyPress kp;
@@ -32,5 +34,20 @@ public class Action implements Serializable{
 
     public KeyPress getKp() {
         return kp;
+    }
+
+    public void execute(Robot robot) {
+        if (mm != null) {
+            mm.execute(robot);
+//                    System.out.println(paket.getMm().toString());
+        }
+        if (cm != null) {
+            cm.execute(robot);
+//                    System.out.println(paket.getCm().toString());
+        }
+        if (kp != null) {
+            kp.execute(robot);
+//                    System.out.println(paket.getKp().toString());
+        }
     }
 }
